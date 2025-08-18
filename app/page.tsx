@@ -1,5 +1,5 @@
+import SearchForm from "@/Components/SearchForm";
 import { trending_data } from "@/data/trending";
-import SearchForm from "@/Components/searchForm";
 
 export default function Home() {
   return (
