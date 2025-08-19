@@ -6,6 +6,8 @@ import * as z from "zod";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { format } from "date-fns";
 import { Button } from "@/Components/ui/button";
+import { cn } from "@/lib/utils";
+import { Calendar } from "./ui/calendar";
 import {
   Form,
   FormControl,
@@ -24,8 +26,8 @@ export const formSchema = z.object({
     .min(2, "String must contain at least 2 character(s)")
     .max(50),
   dates: z.object({
-    from: z.date(),
-    to: z.date(),
+    from: z.date({ error: "Please select a check-in date" }),
+    to: z.date({ error: "Please select a check-out date" }),
   }),
   adults: z
     .string()
@@ -40,10 +42,6 @@ export const formSchema = z.object({
     message: "Please select at least 1 room",
   }),
 });
-
-import React from "react";
-import { cn } from "@/lib/utils";
-import { Calendar } from "./ui/calendar";
 
 export default function searchForm() {
   const router = useRouter();
@@ -62,7 +60,29 @@ export default function searchForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {}
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+
+    const checkin_monthday = values.dates.from.getDate().toString();
+    const checkin_month = (values.dates.from.getMonth(), +1).toString();
+    const checkin_year = (values.dates.from.getFullYear(), +1).toString();
+    const checkout_monthday = values.dates.to.getDate().toString();
+    const checkout_month = (values.dates.from.getMonth(), +1).toString();
+    const checkout_year = values.dates.to.getFullYear().toString();
+
+    const checkin = `${checkin_year}-${checkin_month}-${checkin_monthday}`;
+    const checkout = `${checkout_year}-${checkout_month}-${checkout_monthday}`;
+
+    const url = new URL("https://www.booking.com/searchresults.html");
+    url.searchParams.set("ss", values.location);
+    url.searchParams.set("group_adults", values.adults);
+    url.searchParams.set("group_children", values.children);
+    url.searchParams.set("no_rooms", values.rooms);
+    url.searchParams.set("checkin", checkin);
+    url.searchParams.set("checkout", checkout);
+
+    router.push(`/search?url=${url.href}`);
+  }
 
   return (
     <Form {...form}>
