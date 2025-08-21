@@ -19,11 +19,8 @@ export default async function SearchPage({ searchParams }: Props) {
   if (!searchParams.url) return notFound();
 
   const results = await fetchResults(searchParams);
-  // console.log("API Results", results);
 
   if (!results) return <div>No results...</div>;
-
-  console.log("API Results", results);
 
   return (
     <section>
@@ -42,6 +39,18 @@ export default async function SearchPage({ searchParams }: Props) {
         <h1 className="font-semibold text-xl">
           {results.content.total_listings}
         </h1>
+
+        {/* <div className="space-y-2 mt-5">
+          {results.content.listings.map((item, i) => (
+            <div key={i}>
+              <img
+                src={item.url ?? "/placeholder.png"}
+                alt={item.title ?? "image of property"}
+                className="h-44 w-44 rounded-lg"
+              />
+            </div>
+          ))}
+        </div> */}
       </div>
     </section>
   );

@@ -15,7 +15,7 @@ export default function LoadingResults() {
 
       <div className="space-y-2 p-5">
         {[...Array(10)].map((_, i) => (
-          <div>
+          <div key={i}>
             <Skeleton className="h-20 w-20 md:h-44 md:w-44 rounded-lg" />
             <Skeleton className="h-44 w-full rounded-full" />
           </div>
