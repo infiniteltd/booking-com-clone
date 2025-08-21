@@ -11,7 +11,6 @@ import { Calendar } from "./ui/calendar";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -43,7 +42,7 @@ export const formSchema = z.object({
   }),
 });
 
-export default function searchForm() {
+export default function SearchForm() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -64,10 +63,10 @@ export default function searchForm() {
     console.log(values);
 
     const checkin_monthday = values.dates.from.getDate().toString();
-    const checkin_month = (values.dates.from.getMonth(), +1).toString();
-    const checkin_year = (values.dates.from.getFullYear(), +1).toString();
+    const checkin_month = (values.dates.from.getMonth() + 1).toString();
+    const checkin_year = values.dates.from.getFullYear().toString();
     const checkout_monthday = values.dates.to.getDate().toString();
-    const checkout_month = (values.dates.from.getMonth(), +1).toString();
+    const checkout_month = (values.dates.from.getMonth() + 1).toString();
     const checkout_year = values.dates.to.getFullYear().toString();
 
     const checkin = `${checkin_year}-${checkin_month}-${checkin_monthday}`;

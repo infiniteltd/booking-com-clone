@@ -7,7 +7,7 @@ export type Listing = {
   link: string;
   booking_metadata: string;
   rating_word: string;
-  rating_count: string;
+  rating_count: string | null;
 };
 
 export type Result = {
